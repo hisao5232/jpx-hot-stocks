@@ -56,9 +56,8 @@ pip install -r requirements.txt
 
 # 4. Run the app locally
 python app.py
-
+```
 Then open http://localhost:5000 in your browser.
-
 
 ---
 
@@ -112,7 +111,7 @@ This project is licensed under the MIT License.
 
 👤 Author
 
-Created by [Your Name]
+Created by hisao
 Inspired by a desire to make Japanese stock screening smarter and accessible.
 
 

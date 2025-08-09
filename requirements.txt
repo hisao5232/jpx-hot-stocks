@@ -1,0 +1,6 @@
+pandas
+requests
+yfinance
+flask
+sqlite3
+dotenv

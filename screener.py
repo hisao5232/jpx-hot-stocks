@@ -3,6 +3,7 @@ import requests
 import time
 import os
 import yfinance as yf
+import sqlite3
 
 # === 1. JPXサイトから最新の.xlsファイルをダウンロード ===
 JPX_URL = "https://www.jpx.co.jp/markets/statistics-equities/misc/tvdivq0000001vg2-att/data_j.xls"
@@ -73,5 +74,8 @@ df_result = pd.DataFrame(results)
 if df_result.empty:
     print("😢 No stocks matched the criteria.")
 else:
-    df_result.to_csv("screened_stocks_yfinance.csv", index=False, encoding="utf-8-sig")
-    print(f"✅ {len(df_result)} stocks matched. Saved to screened_stocks_yfinance.csv")
+    # SQLiteに保存
+    conn = sqlite3.connect("screened_stocks.db")
+    df_result.to_sql("stocks", conn, if_exists="replace", index=False)
+    conn.close()
+    print(f"✅ {len(df_result)} stocks matched. Saved to screened_stocks.db")

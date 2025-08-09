@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8" />
+    <title>スクリーニング結果一覧</title>
+    <style>
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+        th { background-color: #eee; }
+    </style>
+</head>
+<body>
+    <h1>スクリーニング結果一覧</h1>
+    {% if stocks %}
+        <table>
+            <thead>
+                <tr>
+                    <th>コード</th>
+                    <th>銘柄名</th>
+                    <th>シンボル</th>
+                    <th>ROE (%)</th>
+                    <th>PER</th>
+                    <th>OPM (%)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for stock in stocks %}
+                    <tr>
+                        <td>{{ stock.code }}</td>
+                        <td>{{ stock.name }}</td>
+                        <td>{{ stock.symbol }}</td>
+                        <td>{{ stock.ROE }}</td>
+                        <td>{{ stock.PER }}</td>
+                        <td>{{ stock.OPM }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>データがありません。</p>
+    {% endif %}
+</body>
+</html>

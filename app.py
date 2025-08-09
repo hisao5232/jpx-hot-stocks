@@ -1,20 +1,24 @@
 from flask import Flask, render_template
-import sqlite3
-import pandas as pd
+import requests
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+API_URL = os.getenv("API_URL")
 
 app = Flask(__name__)
 
-DB_PATH = "jpx_hot_stocks.db"
-
-@app.route("/")
+@app.route('/')
 def index():
-    # SQLiteからスクリーニング結果を読み込み
-    conn = sqlite3.connect(DB_PATH)
-    df = pd.read_sql("SELECT * FROM screened_stocks", conn)
-    conn.close()
+    try:
+        response = requests.get(API_URL)
+        response.raise_for_status()
+        stocks = response.json()
+    except Exception as e:
+        stocks = []
+        print(f"API取得エラー: {e}")
 
-    # DataFrameをHTMLテーブルとして渡す
-    return render_template("index.html", stocks=df.to_dict(orient="records"))
+    return render_template('index.html', stocks=stocks)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run(debug=True)

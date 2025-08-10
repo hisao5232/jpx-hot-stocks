@@ -2,3 +2,5 @@
 data_j.xls
 test.py
 .venv/
+screened_stocks.db
+__pycache__/

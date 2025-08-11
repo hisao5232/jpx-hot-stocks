@@ -5,9 +5,12 @@ import os
 import yfinance as yf
 import sqlite3
 
+# 作業ディレクトリのパスを固定
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 # === 1. JPXサイトから最新の.xlsファイルをダウンロード ===
 JPX_URL = "https://www.jpx.co.jp/markets/statistics-equities/misc/tvdivq0000001vg2-att/data_j.xls"
-xls_path = "data_j.xls"
+xls_path = os.path.join(BASE_DIR, "data_j.xls")
 
 print("📥 Downloading JPX data...")
 res = requests.get(JPX_URL)
@@ -70,12 +73,13 @@ for _, row in df_prime.iterrows():
     time.sleep(1.0)  # Yahoo APIも連続アクセスに注意
 
 # === 4. 結果出力 ===
+db_path = os.path.join(BASE_DIR, "screened_stocks.db")
 df_result = pd.DataFrame(results)
 if df_result.empty:
     print("😢 No stocks matched the criteria.")
 else:
     # SQLiteに保存
-    conn = sqlite3.connect("screened_stocks.db")
+    conn = sqlite3.connect(db_path)
     df_result.to_sql("stocks", conn, if_exists="replace", index=False)
     conn.close()
-    print(f"✅ {len(df_result)} stocks matched. Saved to screened_stocks.db")
+    print(f"✅ {len(df_result)} stocks matched. Saved to {db_path}")

@@ -1,25 +1,37 @@
-from flask import Flask, jsonify, g
+from flask import Flask, jsonify, g, request
 import sqlite3
 
 app = Flask(__name__)
-DATABASE = 'screened_stocks.db'  # SQLiteファイル名（スクリーン結果を保存しているファイル）
 
-def get_db():
-    db = getattr(g, '_database', None)
+DATABASES = {
+    "fundamental": "screened_stocks.db",
+    "technical": "technical_screened.db"
+}
+
+def get_db(db_name):
+    db = getattr(g, f'_database_{db_name}', None)
     if db is None:
-        db = g._database = sqlite3.connect(DATABASE)
-        db.row_factory = sqlite3.Row  # 行を辞書のように扱う
+        db = getattr(g, f'_database_{db_name}', None)
+        db = g.__setattr__(f'_database_{db_name}', sqlite3.connect(DATABASES[db_name]))
+        db = getattr(g, f'_database_{db_name}')
+        db.row_factory = sqlite3.Row
     return db
 
 @app.teardown_appcontext
 def close_connection(exception):
-    db = getattr(g, '_database', None)
-    if db is not None:
-        db.close()
+    for db_name in DATABASES:
+        db = getattr(g, f'_database_{db_name}', None)
+        if db is not None:
+            db.close()
 
 @app.route('/api/stocks', methods=['GET'])
 def get_stocks():
-    db = get_db()
+    # ?type=fundamental または ?type=technical で指定
+    stock_type = request.args.get('type', 'fundamental')
+    if stock_type not in DATABASES:
+        return jsonify({"error": "Invalid type parameter"}), 400
+    
+    db = get_db(stock_type)
     cursor = db.execute('SELECT code, name, symbol, ROE, PER, OPM FROM stocks')
     rows = cursor.fetchall()
     results = [dict(row) for row in rows]

@@ -1,6 +1,7 @@
 .env
-data_j.xls
+*.xls
 test.py
 .venv/
-screened_stocks.db
+*.db
 __pycache__/
+*.log

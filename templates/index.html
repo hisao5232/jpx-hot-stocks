@@ -2,15 +2,20 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8" />
-    <title>スクリーニング結果一覧</title>
+    <title>ファンダメンタルズ スクリーニング結果一覧</title>
     <style>
         table { border-collapse: collapse; width: 100%; }
         th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
         th { background-color: #eee; }
+        nav { margin-bottom: 20px; }
     </style>
 </head>
 <body>
-    <h1>スクリーニング結果一覧</h1>
+    <nav>
+        <a href="/technical">二次スクリーニング結果（テクニカル）を見る</a>
+    </nav>
+
+    <h1>ファンダメンタルズ スクリーニング結果一覧</h1>
     {% if stocks %}
         <table>
             <thead>

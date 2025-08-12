@@ -7,15 +7,14 @@
         table { border-collapse: collapse; width: 100%; }
         th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
         th { background-color: #eee; }
-        nav { margin-bottom: 20px; }
     </style>
 </head>
 <body>
-    <nav>
-        <a href="/technical">二次スクリーニング結果（テクニカル）を見る</a>
-    </nav>
-
     <h1>ファンダメンタルズ スクリーニング結果一覧</h1>
+    <p>
+        <a href="/technical">二次スクリーニングへ</a> |
+        <a href="/final">三次スクリーニングへ</a>
+    </p>
     {% if stocks %}
         <table>
             <thead>

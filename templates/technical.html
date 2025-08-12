@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8" />
-    <title>テクニカル スクリーニング結果一覧</title>
+    <title>二次スクリーニング結果</title>
     <style>
         table { border-collapse: collapse; width: 100%; }
         th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
@@ -10,10 +10,10 @@
     </style>
 </head>
 <body>
-    <h1>テクニカル スクリーニング結果一覧</h1>
+    <h1>二次スクリーニング結果</h1>
     <p>
-        <a href="/">一次スクリーニングへ</a> |
-        <a href="/final">三次スクリーニングへ</a>
+        <a href="/">一次スクリーニング結果へ</a> | 
+        <a href="/final">三次スクリーニング結果へ</a>
     </p>
     {% if stocks %}
         <table>
@@ -22,9 +22,9 @@
                     <th>コード</th>
                     <th>銘柄名</th>
                     <th>シンボル</th>
-                    <th>価格</th>
-                    <th>RSI</th>
-                    <th>出来高</th>
+                    <th>ROE (%)</th>
+                    <th>PER</th>
+                    <th>OPM (%)</th>
                 </tr>
             </thead>
             <tbody>
@@ -33,9 +33,9 @@
                         <td>{{ stock.code }}</td>
                         <td>{{ stock.name }}</td>
                         <td>{{ stock.symbol }}</td>
-                        <td>{{ stock.price }}</td>
-                        <td>{{ stock.RSI }}</td>
-                        <td>{{ stock.volume }}</td>
+                        <td>{{ stock.ROE }}</td>
+                        <td>{{ stock.PER }}</td>
+                        <td>{{ stock.OPM }}</td>
                     </tr>
                 {% endfor %}
             </tbody>

@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8" />
-    <title>最終スクリーニング結果</title>
+    <title>三次スクリーニング結果（最終候補）</title>
     <style>
         table { border-collapse: collapse; width: 100%; }
         th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
@@ -10,10 +10,10 @@
     </style>
 </head>
 <body>
-    <h1>最終スクリーニング結果</h1>
+    <h1>三次スクリーニング結果（最終候補）</h1>
     <p>
-        <a href="/">一次スクリーニングへ</a> |
-        <a href="/technical">二次スクリーニングへ</a>
+        <a href="/">一次スクリーニング結果へ</a> | 
+        <a href="/technical">二次スクリーニング結果へ</a>
     </p>
     {% if stocks %}
         <table>
@@ -22,10 +22,9 @@
                     <th>コード</th>
                     <th>銘柄名</th>
                     <th>シンボル</th>
-                    <th>価格</th>
-                    <th>RSI</th>
-                    <th>出来高</th>
-                    <th>売買代金</th>
+                    <th>ROE (%)</th>
+                    <th>PER</th>
+                    <th>OPM (%)</th>
                 </tr>
             </thead>
             <tbody>
@@ -34,16 +33,15 @@
                         <td>{{ stock.code }}</td>
                         <td>{{ stock.name }}</td>
                         <td>{{ stock.symbol }}</td>
-                        <td>{{ stock.price }}</td>
-                        <td>{{ stock.RSI }}</td>
-                        <td>{{ stock.volume }}</td>
-                        <td>{{ stock.trading_value }}</td>
+                        <td>{{ stock.ROE }}</td>
+                        <td>{{ stock.PER }}</td>
+                        <td>{{ stock.OPM }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
     {% else %}
-        <p>条件に合致する銘柄はありません。</p>
+        <p>データがありません。</p>
     {% endif %}
 </body>
 </html>

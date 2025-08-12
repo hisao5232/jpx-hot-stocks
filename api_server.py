@@ -5,16 +5,16 @@ app = Flask(__name__)
 
 DATABASES = {
     "fundamental": "screened_stocks.db",
-    "technical": "technical_screened.db"
+    "technical": "technical_screened.db",
+    "final": "final_screened.db"
 }
 
 def get_db(db_name):
     db = getattr(g, f'_database_{db_name}', None)
     if db is None:
-        db = getattr(g, f'_database_{db_name}', None)
-        db = g.__setattr__(f'_database_{db_name}', sqlite3.connect(DATABASES[db_name]))
-        db = getattr(g, f'_database_{db_name}')
+        db = sqlite3.connect(DATABASES[db_name])
         db.row_factory = sqlite3.Row
+        setattr(g, f'_database_{db_name}', db)
     return db
 
 @app.teardown_appcontext
@@ -26,7 +26,6 @@ def close_connection(exception):
 
 @app.route('/api/stocks', methods=['GET'])
 def get_stocks():
-    # ?type=fundamental または ?type=technical で指定
     stock_type = request.args.get('type', 'fundamental')
     if stock_type not in DATABASES:
         return jsonify({"error": "Invalid type parameter"}), 400
